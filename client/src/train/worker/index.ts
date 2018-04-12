@@ -13,15 +13,8 @@ import {
 } from '../constants';
 import blankModel from '../../../../models/blank';
 
-const nn = NN.deserialize(blankModel);
-// const nn = new NN(INPUT_NODES, HIDDEN_NODES, OUTPUT_NODES);
+const nn = new NN(INPUT_NODES, HIDDEN_NODES, OUTPUT_NODES);
 nn.setLearningRate(LEARNING_RATE);
-
-// const startMsg: Message = {
-// 	type: 'new-nn',
-// 	data: nn.serialize(),
-// };
-// postMessage(startMsg);
 
 let trainingData: SlimData[] = [];
 let testingData: SlimData[] = [];
@@ -60,13 +53,13 @@ loop();
 
 function train() {
 	const data = trainingData.slice();
-	data.length = Math.floor(data.length / 3);
-	// shuffle(data);
+	data.length = Math.floor(data.length / 10);
+	shuffle(data);
 
 	for (let i = 0; i < data.length; i++) {
 		const input = <any>data[i].data;
 		const target = labelOutputs[data[i].label];
-		nn.train(input, target);
+		nn.train(input, <any>target);
 	}
 }
 function test() {
@@ -138,7 +131,6 @@ addEventListener('message', function (event) {
 		}
 		case 'start': {
 			active = true;
-			console.log('Starting NN.');
 			break;
 		}
 		case 'stop': {
