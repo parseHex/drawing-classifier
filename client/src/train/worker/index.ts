@@ -1,4 +1,4 @@
-import NN from '../../../../../learning-machine-learning/src/lib/nn';
+import NN from '../../../../../nn-ts/src';
 import { shuffle, maxIndex } from '../utils';
 import { Message, SlimData, StateUpdate } from '../ifc';
 import {
