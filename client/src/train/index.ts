@@ -20,7 +20,14 @@ document.getElementById('stop').addEventListener('click', () => {
 	w.postMessage(msg);
 });
 document.getElementById('save').addEventListener('click', () => {
-	download(latestState.nn, 'nn-model.json');
+	const model = JSON.stringify(latestState.nn);
+	fetch('/save-model', {
+		body: model,
+		headers: {
+			'content-type': 'application/json'
+		},
+		method: 'POST',
+	});
 });
 
 (async function () {
