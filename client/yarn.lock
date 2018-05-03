@@ -3430,6 +3430,10 @@ promise-inflight@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
 
+proto-canvas@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/proto-canvas/-/proto-canvas-0.2.0.tgz#db50898ffad649100b50aee6a7d4d9c2eda11da3"
+
 prr@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/prr/-/prr-1.0.1.tgz#d3fc114ba06995a45ec6893f484ceb1d78f5f476"

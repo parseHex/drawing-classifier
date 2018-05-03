@@ -1,4 +1,4 @@
-import * as c from '../../../canvas/src';
+import * as c from 'proto-canvas';
 import * as nn from './nn';
 import * as utils from './train/utils';
 
@@ -37,10 +37,13 @@ c.setLoop({
 c.utility.onDrag(function (position) {
 	changed = true;
 
-	c.draw.circle({
-		x: position.x,
-		y: position.y,
+	c.draw.ellipse({
+		pos: {
+			x: position.x,
+			y: position.y,
+		},
 		rx: 10,
+		ry: 10,
 	});
 });
 
