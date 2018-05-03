@@ -18,12 +18,32 @@ const headers = {
 	'content-type': 'text/plain',
 };
 
-http.createServer(function (request, response) {
+http.createServer(async function (request, response) {
 	let h = Object.assign({}, headers);
 	let status = 200;
 
 	var uri = url.parse(request.url).pathname,
 		filename = path.join(process.cwd(), uri);
+
+	if (uri === '/save-model') {
+		let body = await getBody(request);
+		fs.writeFile(path.resolve(__dirname, 'model.json'), body, () => { })
+		response.writeHead(200);
+		response.end();
+		return;
+	} else if (uri === '/get-model') {
+		fs.readFile(path.resolve(__dirname, 'model.json'), { encoding: 'utf-8' }, (err, data) => {
+			response.writeHead(200, Object.assign({}, h, {
+				'content-type': 'application/json',
+				// 'cache-control': 'public, max-age=360',
+			}));
+			response.write(data);
+			response.write('\n');
+			response.end();
+		});
+
+		return;
+	}
 
 	fs.exists(filename, function (exists) {
 		if (!exists) {
@@ -51,7 +71,6 @@ http.createServer(function (request, response) {
 			if (['bin'].includes(ext)) {
 				// allow caching
 				h["cache-control"] = 'public, max-age=31536000';
-				// console.log(request.headers);
 				status = 200;
 				// status = request.headers['cache-control'] === 'no-cache' ? 200 : 304;
 			}
@@ -70,3 +89,15 @@ http.createServer(function (request, response) {
 }).listen(parseInt(port, 10));
 
 console.log("Static file server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");
+
+function getBody(req) {
+	return new Promise(function (resolve) {
+		let body = [];
+		req.on('data', (chunk) => {
+			body.push(chunk);
+		}).on('end', () => {
+			body = Buffer.concat(body).toString();
+			resolve(body);
+		});
+	})
+}
