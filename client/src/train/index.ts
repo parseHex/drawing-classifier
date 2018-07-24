@@ -58,12 +58,6 @@ document.getElementById('save').addEventListener('click', () => {
 function handleMessage(event: MessageEvent) {
 	const msg: Message = event.data;
 	switch (msg.type) {
-		case 'new-nn': {
-			// nn has been created; msg.data is serialization
-			latestState.nn = msg.data;
-			w.postMessage({ type: 'stop' });
-			break;
-		}
 		case 'state-update': {
 			latestState = msg.data;
 			console.group('Epoch ' + latestState.epoch);

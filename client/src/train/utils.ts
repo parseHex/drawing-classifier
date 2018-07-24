@@ -34,7 +34,7 @@ export function download(data: any, filename: string) {
 /**
  * Return the index of the highest element.
  */
-export function maxIndex(arr: number[]) {
+export function maxIndex(arr: number[] | Uint32Array | Float32Array | Int32Array | Uint8Array) {
 	let value: number = 0;
 	let index: number = 0;
 	for (let i = 0; i < arr.length; i++) {

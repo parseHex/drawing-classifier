@@ -1,4 +1,5 @@
-import NN from '../../../../../nn-ts/src';
+import NN from '../nn-tf';
+// import NN from '../../../../../nn-ts/src';
 import { shuffle, maxIndex } from '../utils';
 import { Message, SlimData, StateUpdate } from '../ifc';
 import {
@@ -11,7 +12,7 @@ import {
 	PATIENCE,
 	labelOutputs,
 } from '../constants';
-import blankModel from '../../../../models/blank';
+// import blankModel from '../../../../models/blank';
 
 const nn = new NN(INPUT_NODES, HIDDEN_NODES, OUTPUT_NODES);
 nn.setLearningRate(LEARNING_RATE);
@@ -45,6 +46,8 @@ function loop() {
 				type: 'early-stop',
 			};
 			postMessage(msg);
+
+			active = false;
 		}
 	}
 	setTimeout(loop, 10);
@@ -53,7 +56,6 @@ loop();
 
 function train() {
 	const data = trainingData.slice();
-	data.length = Math.floor(data.length / 10);
 	shuffle(data);
 
 	for (let i = 0; i < data.length; i++) {
@@ -85,7 +87,7 @@ function sendState() {
 	const state: StateUpdate = {
 		epoch: currentEpoch,
 		correct, incorrect, accuracy,
-		nn: nn.serialize(),
+		nn: 'nn.serialize()',
 		time: timeEnd - timeStart,
 	};
 	const msg: Message = {

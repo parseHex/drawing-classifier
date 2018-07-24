@@ -8,6 +8,7 @@
 		"server": "node server.js"
 	},
 	"dependencies": {
+		"@tensorflow/tfjs": "^0.10.3",
 		"proto-canvas": "^0.2.0"
 	},
 	"devDependencies": {

@@ -1,6 +1,8 @@
 import * as c from 'proto-canvas';
 import * as nn from './nn';
 import * as utils from './train/utils';
+import * as tf from '@tensorflow/tfjs';
+import m from '../../../nn-ts/src/matrix';
 
 const guess = <HTMLSpanElement>document.getElementById('guess');
 const reset = <HTMLButtonElement>document.getElementById('reset');
@@ -9,6 +11,19 @@ const mainCanvas = <HTMLCanvasElement>document.getElementById('main');
 const helperCanvas = <HTMLCanvasElement>document.getElementById('helper');
 const helperCtx = helperCanvas.getContext('2d');
 const mainCtx = mainCanvas.getContext('2d');
+
+(<any>window).tf = tf;
+(<any>window).m = m;
+(<any>window).s = (t: any) => (
+	t.toString().
+		replace(/tensor/i, '').
+		trim()
+		.split('\n')
+		.map((v: string, i: number) => i > 0 ? ' ' + v.trim() : v.trim())
+		.join('\n')
+		.replace(/^\[/, '')
+		.replace(/]$/, '')
+);
 
 let changed = true;
 
@@ -44,11 +59,11 @@ c.utility.onDrag(function (position) {
 		},
 		rx: 10,
 		ry: 10,
+		fill: 'white',
 	});
 });
 
 reset.addEventListener('click', function () {
 	changed = true;
-	mainCtx.fillStyle = 'black';
-	mainCtx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
+	c.utility.clear();
 });
